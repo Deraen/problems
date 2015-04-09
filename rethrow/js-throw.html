@@ -1,0 +1,17 @@
+<script>
+function throwSomething() {
+    throw new Error("foobar");
+}
+
+function catchAndRethrow() {
+    try {
+        throwSomething();
+    } catch (e) {
+        var b = e;
+        console.log("catch", b);
+        throw b;
+    }
+}
+
+catchAndRethrow();
+</script>
