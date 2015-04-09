@@ -3,7 +3,9 @@
 (cljs.closure/build
   "src"
   {:main "hello-world.core"
-   :output-to "out-adv/hello_world.min.js"
-   :output-dir "out-adv"
-   :optimizations :advanced
+   :output-to "out/main.js"
+   :output-dir "out"
+   :optimizations :none
    :pretty-print false})
+
+(shutdown-agents)

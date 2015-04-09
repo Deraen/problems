@@ -1,12 +1,20 @@
 (ns hello-world.core
-  (:require [om.core :as om]
-            [om.dom :as dom]))
+  (:require [reagent.core :as reagent]))
 
-(defn widget [data owner]
-  (reify
-    om/IRender
-    (render [this]
-      (dom/h1 nil (:text data)))))
+(enable-console-print!)
 
-(om/root widget {:text "Hello world!"}
-  {:target (. js/document (getElementById "my-app"))})
+(defn throw-something []
+  (throw (js/Error. "foobar")))
+
+(defn ^:export catch-and-rethrow []
+  (try
+    (throw-something)
+    (catch js/Error e
+      (println "catch" e)
+      (throw e))))
+
+(defn error []
+  [:p (aget nil "foo")])
+
+(defn ^:export start []
+  (reagent/render-component [error] (js/document.getElementById "app")))

@@ -3,8 +3,8 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-3117"]
-                 [org.omcljs/om "0.8.8"]]
+                 [org.clojure/clojurescript "0.0-3126"]
+                 [reagent "0.5.0"]]
 
   :source-paths ["src" "target/classes"]
 
