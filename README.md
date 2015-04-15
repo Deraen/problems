@@ -1,24 +1,15 @@
 # hello-world
 
-```bash
-lein trampoline run -m clojure.main build.clj
 ```
+$ lein clean
+$ lein figwheel
+# If I save the foobar.cljs file now, Figwheel reports correctly in browser
+# console that both core.js and foobar.js were reloaded
+# ...
+# Exit figwheel
 
-## Log
-
-```
-~/tmp/problems all-ns*
-❯ lein trampoline run -m clojure.main build.clj
-all ns: (hello-world.core cljs.core)
-
-~/tmp/problems all-ns*
-❯ lein trampoline run -m clojure.main build.clj
-all ns: nil
-
-~/tmp/problems all-ns*
-❯ rm -r out
-
-~/tmp/problems all-ns*
-❯ lein trampoline run -m clojure.main build.clj
-all ns: (hello-world.core cljs.core)
+$ lein figwheel
+# If I now save the foobar.cljs, core.js is not reloaded
+# After I save the core.cljs once, subsequent foobar.cljs changes will
+# trigger core.js reload
 ```

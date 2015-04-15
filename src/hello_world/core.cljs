@@ -1,4 +1,5 @@
-(ns ^:figwheel-always hello-world.core)
+(ns ^:figwheel-always hello-world.core
+  (:require [hello-world.foobar]))
 
 (defn hello []
-  (println "world"))
+  (hello-world.foobar/hello))
