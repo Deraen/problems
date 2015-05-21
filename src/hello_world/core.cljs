@@ -30,7 +30,9 @@
        [:input
         {:value (-> @data :value)
          :on-change #(swap! data assoc-in [:value] (.. % -target -value))
-         :on-blur #(swap! data assoc-in [:not-pristine] true)
+         :on-blur #(swap! data assoc-in [:not-pristine] true) ; Broken
+         ; :on-blur #(swap! data assoc-in [:not-pristine] {}) ; Broken
+         ; :on-blur #(swap! data assoc-in [:not-pristine] {:a true}) ; Works
          }]
        [:button
         {:type "button"

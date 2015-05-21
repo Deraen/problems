@@ -1,3 +1,3 @@
 # hello-world
 
-https://github.com/reagent-project/reagent/issues/120
+https://github.com/reagent-project/reagent/issues/x
