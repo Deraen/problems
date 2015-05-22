@@ -8,35 +8,22 @@
 
 (defonce state (atom {:foo {:value "", :active? false}}))
 
-(defn click []
-  (go
-    (swap! state assoc-in [:foo :active?] true)
-    (<! (timeout 250))
-    (swap! state assoc-in [:foo :active?] false)))
-
-(def actions (chan))
-
-(go
-  (loop []
-    (when (<! actions)
-      (js/console.log "event")
-      (click)
-      (recur))))
-
 (defn main []
   (let [data (reagent/cursor state [:foo])]
     (fn []
       [:div
+       ; Accesses state through cursor
        [:input
         {:value (-> @data :value)
-         :on-change #(swap! data assoc-in [:value] (.. % -target -value))
-         :on-blur #(swap! data assoc-in [:not-pristine] true) ; Broken
-         ; :on-blur #(swap! data assoc-in [:not-pristine] {}) ; Broken
-         ; :on-blur #(swap! data assoc-in [:not-pristine] {:a true}) ; Works
+         :on-change #(swap! data assoc :value (.. % -target -value))
+         :on-blur #(swap! data assoc :not-pristine true) ; Broken
+         ; :on-blur #(swap! data assoc :not-pristine {}) ; Broken
+         ; :on-blur #(swap! data assoc :not-pristine {:a true}) ; Works
          }]
+       ; Accesses state directly
        [:button
         {:type "button"
-         :on-click #(do (put! actions true) nil)}
+         :on-click #(swap! state update-in [:foo :active?] not)}
         "Click"]
        (if (:active? @data)
          "Active")])))
