@@ -24,8 +24,11 @@
                              :compiler {:main "hello-world.core"
                                         :output-to "out/public/main.js"
                                         :asset-path ""
-                                        :output-dir "out/public"
-                                        :optimizations :none
-                                        :pretty-print false}}}}
+                                        :output-dir "out/public"}}
+                       :gh-pages {:source-paths ["src"]
+                                  :compiler {:main "hello-world.core"
+                                             :asset-path "/problems/reagent-strange-bug/out"
+                                             :output-to "gh-pages/reagent-strange-bug/main.js"
+                                             :output-dir "gh-pages/reagent-strange-bug/out"}}}}
 
   :clean-targets ["out" "out-adv"])
