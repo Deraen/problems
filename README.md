@@ -14,7 +14,7 @@ When *test* ns is changed, new tests are not picked up.
 
 If *shim* ns is in `src` folder, problem doesn't exist.
 
-## Log
+## Problem log
 
 ```
 ❯ rm -r out
@@ -57,6 +57,47 @@ Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojur
 Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
 Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
 Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/test.cljs
+nil
+user=> (comment "Ran 2 tests containing 2 assertions.")
+```
+
+## Working log
+
+Using *shim-b* in `src` folder.
+
+```
+~/tmp/problems cljs-changes-problem* 5m 52s
+❯ rm -r out
+
+~/tmp/problems cljs-changes-problem*
+❯ lein trampoline run -m clojure.main -i build.clj -r
+Clojure 1.7.0
+user=> (c)
+Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+Compiling src/hello_world/test.cljs
+Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
+Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
+Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
+Compiling src/hello_world/core.cljs
+Compiling src/hello_world/shim_b.cljs
+Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/core.cljs
+Compiling out/cljs/test.cljs
+Compiling out/clojure/string.cljs
+Compiling out/cljs/pprint.cljs
+Compiling out/cljs/core.cljs
+Using cached cljs.core out/cljs/core.cljs
+nil
+user=> (comment "Ran 1 tests containing 1 assertions.")
+user=> (comment "Uncommented test-b")
+user=> (c)
+Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+Compiling src/hello_world/test.cljs
+Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
+Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
+Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
+Compiling src/hello_world/core.cljs
+Compiling src/hello_world/shim_b.cljs
+Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/core.cljs
 nil
 user=> (comment "Ran 2 tests containing 2 assertions.")
 ```
