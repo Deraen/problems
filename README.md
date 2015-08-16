@@ -12,7 +12,7 @@ lein trampoline run -m clojure.main -i build.clj -r
 
 When *test* ns is changed, new tests are not picked up.
 
-If *shim* ns is in `src` folder, works problem doesn't exist.
+If *shim* ns is in `src` folder, problem doesn't exist.
 
 ## Log
 
