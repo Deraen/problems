@@ -4,5 +4,6 @@
 (t/deftest test-a
   (t/is (= "a" "a")))
 
+#_
 (t/deftest test-b
   (t/is (= "b" "b")))
