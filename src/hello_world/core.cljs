@@ -1,12 +1,7 @@
 (ns hello-world.core
-  (:require [om.core :as om]
-            [om.dom :as dom]))
+  (:require hello-world.test
+            [cljs.test :as t]))
 
-(defn widget [data owner]
-  (reify
-    om/IRender
-    (render [this]
-      (dom/h1 nil (:text data)))))
+(enable-console-print!)
 
-(om/root widget {:text "Hello world!"}
-  {:target (. js/document (getElementById "my-app"))})
+(t/run-tests (t/empty-env) 'hello-world.test)

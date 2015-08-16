@@ -2,10 +2,7 @@
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-3117"]
-                 [org.omcljs/om "0.8.8"]]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.48"]]
 
-  :source-paths ["src" "target/classes"]
-
-  :clean-targets ["out" "out-adv"])
+  :source-paths ["src" "src2"])
