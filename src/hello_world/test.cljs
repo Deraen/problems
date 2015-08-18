@@ -1,9 +1,6 @@
-(ns hello-world.test
-  (:require [cljs.test :as t]))
+(ns hello-world.test)
 
-(t/deftest test-a
-  (t/is (= "a" "a")))
+(def a "foobar")
 
 #_
-(t/deftest test-b
-  (t/is (= "b" "b")))
+(def b "zzzz")

@@ -1,7 +1,7 @@
 (ns hello-world.core
-  (:require hello-world.test
-            [cljs.test :as t]))
+  (:require-macros hello-world.macro)
+  (:require hello-world.test))
 
 (enable-console-print!)
 
-(t/run-tests (t/empty-env) 'hello-world.test)
+(println (hello-world.macro/foo hello-world.test))
