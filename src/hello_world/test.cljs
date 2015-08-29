@@ -2,5 +2,4 @@
 
 (def a "foobar")
 
-#_
 (def b "zzzz")

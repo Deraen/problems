@@ -1,4 +1,4 @@
-(require '[cljs.build.api :refer [build]])
+(require '[cljs.build.api :refer [build inputs]])
 
 (def o {:main "hello-world.shim"
         :output-to "out/main.js"
@@ -6,8 +6,8 @@
         :optimizations :none
         :verbose true})
 
-(defn b []
+(defn broken []
   (build "src2" o))
 
-(defn c []
-  (build "src" (assoc o :main "hello-world.shim-b")))
+(defn working []
+  (build (inputs "src" "src2") o))

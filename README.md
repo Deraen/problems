@@ -1,103 +1,58 @@
 # hello-world
 
 ```bash
-lein trampoline run -m clojure.main -i build.clj -r
+wget https://github.com/clojure/clojurescript/releases/download/r1.7.48/cljs.jar
+java -cp cljs.jar:src:src2 clojure.main -i build.clj -r
 ```
 
-## Problem
+Problem:
 
-- *Shim*, requires *core* ns. In folder `src2`.
-- *core*, does `run-tests`. In folder `src`.
-- *test*, has `deftests`. In folder `src`.
+Cljs.test uses `cljs.analyzer.api/ns-interns` to find the vars in a namespace.
+When the test namespace is changed, new tests are not picked up if test
+namespace is not inside a dir passed to `build`.
 
-When *test* ns is changed, new tests are not picked up.
-
-If *shim* ns is in `src` folder, problem doesn't exist.
-
-## Problem log
+- Broken: Only the directory with main namespace is passed to build
+- Working: Both directories are passed to build
 
 ```
-❯ rm -r out
-
-~/tmp/problems cljs-changes-problem*
-❯ lein trampoline run -m clojure.main -i build.clj -r
+$ rm -r out
+$ java -cp cljs.jar:src:src2 clojure.main -i build.clj -r
 Clojure 1.7.0
-user=> (comment "test-b commented out")
-user=> (b)
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+user=> (broken)
+Reading analysis cache for jar:file:/home/juho/tmp/problems/cljs.jar!/cljs/core.cljs
 Compiling src2/hello_world/shim.cljs
 Analyzing file:/home/juho/tmp/problems/src/hello_world/core.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
 Analyzing file:/home/juho/tmp/problems/src/hello_world/test.cljs
 Compiling /home/juho/tmp/problems/src/hello_world/core.cljs
 Compiling /home/juho/tmp/problems/src/hello_world/test.cljs
-Compiling out/cljs/test.cljs
-Compiling out/clojure/string.cljs
-Compiling out/cljs/pprint.cljs
 Compiling out/cljs/core.cljs
 Using cached cljs.core out/cljs/core.cljs
 nil
-user=> (comment "Ran 1 tests containing 1 assertions.")
-user=> (comment "Uncommented test-b")
-user=> (b)
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+user=> (comment "[foobar] printed on browser" "uncommented b on test ns")
+user=> (broken)
+Reading analysis cache for jar:file:/home/juho/tmp/problems/cljs.jar!/cljs/core.cljs
 Compiling /home/juho/tmp/problems/src/hello_world/test.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
 nil
-user=> (comment "Ran 1 tests containing 1 assertions.")
-user=> (comment "Saved core.cljs")
-user=> (b)
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
-Compiling /home/juho/tmp/problems/src/hello_world/core.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
-Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/test.cljs
-nil
-user=> (comment "Ran 2 tests containing 2 assertions.")
-```
+user=> (comment "only [foobar] printed on browser)")
 
-## Working log
-
-Using *shim-b* in `src` folder.
-
-```
-~/tmp/problems cljs-changes-problem* 5m 52s
-❯ rm -r out
-
-~/tmp/problems cljs-changes-problem*
-❯ lein trampoline run -m clojure.main -i build.clj -r
+$ rm -r out
+$ java -cp cljs.jar:src:src2 clojure.main -i build.clj -r
 Clojure 1.7.0
-user=> (c)
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+user=> (working)
+Reading analysis cache for jar:file:/home/juho/tmp/problems/cljs.jar!/cljs/core.cljs
 Compiling src/hello_world/test.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
-Analyzing jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
 Compiling src/hello_world/core.cljs
-Compiling src/hello_world/shim_b.cljs
+Compiling src2/hello_world/shim.cljs
 Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/core.cljs
-Compiling out/cljs/test.cljs
-Compiling out/clojure/string.cljs
-Compiling out/cljs/pprint.cljs
 Compiling out/cljs/core.cljs
 Using cached cljs.core out/cljs/core.cljs
 nil
-user=> (comment "Ran 1 tests containing 1 assertions.")
-user=> (comment "Uncommented test-b")
-user=> (c)
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/core.cljs
+user=> (comment "[foobar] printed on browser "uncommented b on test ns")
+user=> (working)
+Reading analysis cache for jar:file:/home/juho/tmp/problems/cljs.jar!/cljs/core.cljs
 Compiling src/hello_world/test.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/clojure/string.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/pprint.cljs
-Reading analysis cache for jar:file:/home/juho/.m2/repository/org/clojure/clojurescript/1.7.48/clojurescript-1.7.48.jar!/cljs/test.cljs
 Compiling src/hello_world/core.cljs
-Compiling src/hello_world/shim_b.cljs
-Reading analysis cache for file:/home/juho/tmp/problems/src/hello_world/core.cljs
 nil
-user=> (comment "Ran 2 tests containing 2 assertions.")
+user=> (comment "[foobar zzzz] printed on browser")
 ```
+
