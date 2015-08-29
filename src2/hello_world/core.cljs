@@ -4,4 +4,4 @@
 
 (enable-console-print!)
 
-(println (hello-world.macro/foo hello-world.test))
+(println (meta #'hello-world.test/a))
