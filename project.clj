@@ -6,10 +6,6 @@
                  [org.clojure/clojurescript "1.9.89"]
                  [org.clojure/core.async "0.2.385"]]
 
-  :source-paths ["src" "target/classes"]
-
-  :resource-paths ["out" "resources"]
-
-  :clean-targets ["out" "out-adv"]
+  :source-paths ["src"]
 
   :profiles {:latest {:dependencies [[org.clojure/clojurescript "1.9.146"]]}})
