@@ -1,3 +1,3 @@
 # hello-world
 
-https://github.com/reagent-project/reagent/issues/135
+http://dev.clojure.org/jira/browse/CLJS-1716
