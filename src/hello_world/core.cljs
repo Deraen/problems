@@ -1,34 +1,17 @@
 (ns hello-world.core
-  (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [reagent.core :as reagent]
-            [reagent.ratom :refer [atom] :refer-macros [reaction]]
-            [cljs.core.async :refer [timeout chan <! put!]]))
+  (:require [reagent.core :as reagent]))
 
-(enable-console-print!)
-
-(defonce state (atom {:foo {:value "", :active? false}}))
+(defonce state (reagent/atom 13))
 
 (defn main []
-  (let [data (reagent/cursor state [:foo])]
-    (fn []
-      [:div
-       ; Accesses state through cursor
-       [:input
-        {:value (-> @data :value)
-         :on-change #(swap! data assoc :value (.. % -target -value))
-         :on-blur #(swap! data assoc :not-pristine true) ; Broken
-         ; :on-blur #(swap! data assoc :not-pristine {}) ; Broken
-         ; :on-blur #(swap! data assoc :not-pristine {:a true}) ; Works
-         }]
-       ; Accesses state directly
-       [:button
-        {:type "button"
-         :on-click #(swap! state update-in [:foo :active?] not)}
-        "Click"]
-       (if (:active? @data)
-         "Active")])))
+  [:div
+   [:p "Number: " @state]
+   [:button
+    {:type "button"
+     :on-click #(swap! state inc)}
+    "inc"]])
 
-(defn ^:export start []
-  (reagent/render-component [main] (js/document.getElementById "app")))
+(defn start []
+  (reagent/render [main] (js/document.getElementById "app")))
 
 (start)

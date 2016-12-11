@@ -2,14 +2,20 @@
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.7.0-beta2"]
-                 [org.clojure/clojurescript "0.0-3269"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [reagent "0.5.0"]
-                 [figwheel "0.3.3"]]
+  :exclusions [cljsjs/react cljsjs/react-dom cljsjs/react-dom-server]
 
-  :plugins [[lein-figwheel "0.3.3"]
-            [lein-cljsbuild "1.0.6"]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [reagent "0.6.1-SNAPSHOT"]
+                 [figwheel "0.3.3"]
+
+                 [cljsjs/preact "7.1.0-0"]
+                 [cljsjs/preact-compat "3.9.4-0"]
+                 ]
+
+  :plugins [[lein-figwheel "0.5.8"]
+            [lein-cljsbuild "1.1.5"]]
 
   :source-paths ["src" "target/classes"]
 
@@ -26,9 +32,8 @@
                                         :asset-path ""
                                         :output-dir "out/public"}}
                        :gh-pages {:source-paths ["src"]
-                                  :compiler {:main "hello-world.core"
-                                             :asset-path "/problems/reagent-strange-bug/out"
-                                             :output-to "gh-pages/reagent-strange-bug/main.js"
-                                             :output-dir "gh-pages/reagent-strange-bug/out"}}}}
-
-  :clean-targets ["out" "out-adv"])
+                                  :compiler {:optimizations :advanced
+                                             :main "hello-world.core"
+                                             :asset-path "/problems/reagent-preact/out"
+                                             :output-to "gh-pages/reagent-preact/main.js"
+                                             :output-dir "gh-pages/reagent-preact/out"}}}})
