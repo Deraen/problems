@@ -1,17 +1,34 @@
 (ns hello-world.core
-  (:require [reagent.core :as reagent]))
+  (:require [reagent.core :as r]
+            [cljs-react-material-ui.core :as ui]
+            [cljs-react-material-ui.icons :as ic]
+            ;; wtf
+            cljsjs.material-ui
+            [cljs-react-material-ui.reagent :as rui]))
 
-(defonce state (reagent/atom 13))
+(defonce text-state (r/atom "foobar"))
+
+(def text-field (r/adapt-react-class (.-TextField js/MaterialUI)
+                                     {:synthetic-input {:on-update (fn [input-node-set-value node rendered-value dom-value this]
+                                                                     (input-node-set-value node rendered-value dom-value this {}))
+                                                        :on-change (fn [on-change e]
+                                                                     (on-change e))}}))
 
 (defn main []
-  [:div
-   [:p "Number: " @state]
-   [:button
-    {:type "button"
-     :on-click #(swap! state inc)}
-    "inc"]])
+  [rui/mui-theme-provider
+   {:mui-theme (ui/get-mui-theme
+                 {:palette {:text-color (ui/color :green600)}})}
+   [:div
+    [:div
+     [:strong @text-state]]
+    [text-field
+     {:id "example"
+      :value @text-state
+      :on-change (fn [e]
+                   (js/console.log e)
+                   (reset! text-state (.. e -target -value)))}]]])
 
 (defn start []
-  (reagent/render [main] (js/document.getElementById "app")))
+  (r/render [main] (js/document.getElementById "app")))
 
 (start)

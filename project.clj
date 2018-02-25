@@ -4,18 +4,19 @@
 
   :exclusions [cljsjs/react cljsjs/react-dom cljsjs/react-dom-server]
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [reagent "0.6.1-SNAPSHOT"]
-                 [figwheel "0.3.3"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [reagent "0.8.0-alpha2"]
+                 [figwheel "0.5.14"]
 
-                 [cljsjs/preact "7.1.0-0"]
-                 [cljsjs/preact-compat "3.9.4-0"]
-                 ]
+                 [cljsjs/react "15.6.2-2"]
+                 [cljsjs/react-dom "15.6.2-2"]
+                 [cljsjs/react-dom-server "15.6.2-2"]
+                 [cljsjs/create-react-class "15.6.2-0"]
 
-  :plugins [[lein-figwheel "0.5.8"]
-            [lein-cljsbuild "1.1.5"]]
+                 [cljs-react-material-ui "0.2.50"]]
+
+  :plugins [[lein-figwheel "0.5.14"]]
 
   :source-paths ["src" "target/classes"]
 
