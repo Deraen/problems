@@ -9,18 +9,12 @@
 (defonce text-state (r/atom "foobar"))
 
 (def text-field (r/adapt-react-class (.-TextField js/MaterialUI)
-                                     {:synthetic-input {:on-update (fn [input-node-set-value node rendered-value dom-value this]
-                                                                     ;; node is the element rendered by TextField, i.e. div.
-                                                                     ;; If hintText is enabled, we need to control it's visibility
-                                                                     ;; when the value is changed by updating :value prop (not by user interaction).
-                                                                     (if (.-hintText (nth (.. this -props -argv) 5))
-                                                                       (let [hint-node (aget (.getElementsByTagName node "div") 0)]
-                                                                         (set! (.. hint-node -style -opacity)
-                                                                               (if (and (string? rendered-value) (seq rendered-value)) 0 1))))
-                                                                     ;; FIXME: floatingLabelText is broken
-                                                                     ;; Update input dom node value
-                                                                     (let [node (aget (.getElementsByTagName node "input") 0)]
-                                                                       (input-node-set-value node rendered-value dom-value this {})))
+                                     {:synthetic-input {:on-update (fn [input-node-set-value node children rendered-value dom-value this]
+                                                                     (let [input-node (aget (.getElementsByTagName node "input") 0)]
+                                                                       (input-node-set-value input-node rendered-value dom-value this
+                                                                                             {:on-write (fn [value]
+                                                                                                          (.setState children #js {:hasValue (boolean (and (string? value) (seq value)))
+                                                                                                                                   :isClean false}))})))
                                                         :on-change (fn [on-change e]
                                                                      (on-change e (.. e -target -value)))}}))
 
@@ -34,12 +28,15 @@
     [:button
      {:on-click #(swap! text-state str " foo")}
      "update value property"]
+    [:button
+     {:on-click #(reset! text-state "")}
+     "reset"]
     [text-field
      {:id "example"
       :value @text-state
-      ;; FIXME:
-      ; :floating-label-text "foo"
+      :floating-label-text "foo"
       :hint-text "hint"
+      ; :ref #(js/console.log "text-field" %)
       :on-change (fn [e]
                    (js/console.log e)
                    (reset! text-state (.. e -target -value)))}]]])
